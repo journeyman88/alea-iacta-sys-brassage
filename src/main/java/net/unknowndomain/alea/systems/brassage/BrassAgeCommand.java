@@ -16,10 +16,9 @@
 package net.unknowndomain.alea.systems.brassage;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import net.unknowndomain.alea.command.HelpWrapper;
-import net.unknowndomain.alea.expr.Expression;
-import net.unknowndomain.alea.messages.MsgBuilder;
 import net.unknowndomain.alea.messages.ReturnMsg;
 import net.unknowndomain.alea.systems.RpgSystemCommand;
 import net.unknowndomain.alea.systems.RpgSystemDescriptor;
@@ -116,13 +115,9 @@ public class BrassAgeCommand extends RpgSystemCommand
     }
     
     @Override
-    protected ReturnMsg safeCommand(String cmdName, String cmdParams)
+    protected Optional<GenericRoll> safeCommand(String cmdParams)
     {
-        ReturnMsg retVal;
-        if (cmdParams == null || cmdParams.isEmpty())
-        {
-            return HelpWrapper.printHelp(cmdName, CMD_OPTIONS, true);
-        }
+        Optional<GenericRoll> retVal;
         try
         {
             CommandLineParser parser = new DefaultParser();
@@ -135,7 +130,7 @@ public class BrassAgeCommand extends RpgSystemCommand
                     ( cmd.hasOption(POTENTIAL_PARAM) ^ cmd.hasOption(THRESHOLD_PARAM))
                 )
             {
-                return HelpWrapper.printHelp(cmdName, CMD_OPTIONS, true);
+                return Optional.empty();
             }
 
 
@@ -147,34 +142,40 @@ public class BrassAgeCommand extends RpgSystemCommand
             {
                 mods.add(BrassAgeRoll.Modifiers.VERBOSE);
             }
-
+            GenericRoll roll; 
             if (cmd.hasOption(INITIATIVE_PARAM))
             {
                 String n = cmd.getOptionValue(INITIATIVE_PARAM);
-                Expression solver = new Expression("1d10+" + n);
-                MsgBuilder builder = new MsgBuilder();
-                builder.append("Initiative: ").append(solver.getResult());
-                return builder.build();
+                roll = new BrassAgeInitiativeRoll(Integer.parseInt(n));
             }
-            else if (cmd.hasOption(NOTATION_PARAM))
+            else 
             {
-                String [] n = cmd.getOptionValue(NOTATION_PARAM).split("/");
-                p = n[0];
-                t = n[1];
+                if (cmd.hasOption(NOTATION_PARAM))
+                {
+                    String [] n = cmd.getOptionValue(NOTATION_PARAM).split("/");
+                    p = n[0];
+                    t = n[1];
+                }
+                else
+                {
+                    p = cmd.getOptionValue(POTENTIAL_PARAM);
+                    t = cmd.getOptionValue(THRESHOLD_PARAM);
+                }
+                roll = new BrassAgeRoll(Integer.parseInt(p), Integer.parseInt(t), mods);
             }
-            else
-            {
-                p = cmd.getOptionValue(POTENTIAL_PARAM);
-                t = cmd.getOptionValue(THRESHOLD_PARAM);
-            }
-            GenericRoll roll = new BrassAgeRoll(Integer.parseInt(p), Integer.parseInt(t), mods);
-            retVal = roll.getResult();
+            retVal = Optional.of(roll);
         } 
         catch (ParseException | NumberFormatException ex)
         {
-            retVal = HelpWrapper.printHelp(cmdName, CMD_OPTIONS, true);
+            retVal = Optional.empty();
         }
         return retVal;
+    }
+    
+    @Override
+    public ReturnMsg getHelpMessage(String cmdName)
+    {
+        return HelpWrapper.printHelp(cmdName, CMD_OPTIONS, true);
     }
     
 }
