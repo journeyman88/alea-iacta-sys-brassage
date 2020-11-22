@@ -22,9 +22,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import net.unknowndomain.alea.dice.D10;
+import net.unknowndomain.alea.messages.MsgBuilder;
+import net.unknowndomain.alea.messages.ReturnMsg;
 import net.unknowndomain.alea.pools.DicePool;
 import net.unknowndomain.alea.roll.GenericRoll;
-import org.javacord.api.entity.message.MessageBuilder;
 
 /**
  *
@@ -79,7 +80,7 @@ public class BrassAgeRoll implements GenericRoll
     }
     
     @Override
-    public MessageBuilder getResult()
+    public ReturnMsg getResult()
     {
         List<Integer> resultsPool = this.dicePool.getResults();
         List<Integer> res = new ArrayList<>();
@@ -88,9 +89,9 @@ public class BrassAgeRoll implements GenericRoll
         return formatResults(results);
     }
     
-    private MessageBuilder formatResults(BrassAgeResults results)
+    private ReturnMsg formatResults(BrassAgeResults results)
     {
-        MessageBuilder mb = new MessageBuilder();
+        MsgBuilder mb = new MsgBuilder();
         mb.append("Successes: ").append(results.getSuccesses()).appendNewLine();
         if (mods.contains(Modifiers.VERBOSE))
         {
@@ -106,7 +107,7 @@ public class BrassAgeRoll implements GenericRoll
             }
             mb.append("]").appendNewLine();
         }
-        return mb;
+        return mb.build();
     }
     
     private BrassAgeResults buildResults(List<Integer> res)
