@@ -118,6 +118,7 @@ public class BrassAgeResults extends GenericResult
             {
                 messageBuilder.append("Increment: true (").append(getOldValue()).append(" => ").append(getNewValue()).append(")").appendNewLine();
             }
+            messageBuilder.append("Roll ID: ").append(getUuid()).appendNewLine();
             messageBuilder.append("Results: ").append(" [ ");
             for (Integer t : getResults())
             {
