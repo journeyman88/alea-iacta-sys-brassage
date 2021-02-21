@@ -33,22 +33,18 @@ import net.unknowndomain.alea.roll.GenericRoll;
 public class BrassAgeRoll implements GenericRoll
 {
     
-    public enum Modifiers
-    {
-        VERBOSE
-    }
     
     private final DicePool<D10> dicePool;
     private final Integer potential;
     private final Integer threshold;
-    private final Set<Modifiers> mods;
+    private final Set<BrassAgeModifiers> mods;
     
-    public BrassAgeRoll(Integer potential, Integer threshold, Modifiers ... mod)
+    public BrassAgeRoll(Integer potential, Integer threshold, BrassAgeModifiers ... mod)
     {
         this(potential, threshold, Arrays.asList(mod));
     }
     
-    public BrassAgeRoll(Integer potential, Integer threshold, Collection<Modifiers> mod)
+    public BrassAgeRoll(Integer potential, Integer threshold, Collection<BrassAgeModifiers> mod)
     {
         this.mods = new HashSet<>();
         if (mod != null)
@@ -85,7 +81,7 @@ public class BrassAgeRoll implements GenericRoll
         List<Integer> res = new ArrayList<>();
         res.addAll(resultsPool);
         BrassAgeResults results = buildResults(res);
-        results.setVerbose(mods.contains(Modifiers.VERBOSE));
+        results.setVerbose(mods.contains(BrassAgeModifiers.VERBOSE));
         return results;
     }
     
