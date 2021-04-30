@@ -23,9 +23,9 @@
     </repositories>
     
     <scm>
-        <connection>scm:git:git://github.com/journeyman88/alea-iacta-discord</connection>
-        <developerConnection>scm:git:ssh://github.com/journeyman88/alea-iacta-discord</developerConnection>
-        <url>https://github.com/journeyman88/alea-iacta-discord</url>
+        <connection>scm:git:git://github.com/journeyman88/alea-iacta-sys-brassage</connection>
+        <developerConnection>scm:git:ssh://github.com/journeyman88/alea-iacta-sys-brassage</developerConnection>
+        <url>https://github.com/journeyman88/alea-iacta-sys-brassage</url>
     </scm>
     
     <dependencies>
