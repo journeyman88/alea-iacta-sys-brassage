@@ -15,7 +15,8 @@
  */
 package net.unknowndomain.alea.systems.brassage;
 
-import net.unknowndomain.alea.dice.standard.D10;
+import net.unknowndomain.alea.random.SingleResult;
+import net.unknowndomain.alea.random.dice.bag.D10;
 import net.unknowndomain.alea.roll.GenericResult;
 import net.unknowndomain.alea.roll.GenericRoll;
 
@@ -36,7 +37,8 @@ public class BrassAgeInitiativeRoll implements GenericRoll
     @Override
     public GenericResult getResult()
     {
-        return new BrassAgeInitiativeResults(D10.INSTANCE.roll() + fatigueValue);
+        SingleResult<Integer> dice = D10.INSTANCE.nextResult().get();
+        return new BrassAgeInitiativeResults( new SingleResult<Integer>("d10 + " + fatigueValue, dice.getValue() + fatigueValue));
     }
     
 }

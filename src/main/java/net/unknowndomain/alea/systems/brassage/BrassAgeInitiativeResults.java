@@ -16,6 +16,7 @@
 package net.unknowndomain.alea.systems.brassage;
 
 import net.unknowndomain.alea.messages.MsgBuilder;
+import net.unknowndomain.alea.random.SingleResult;
 import net.unknowndomain.alea.roll.GenericResult;
 
 /**
@@ -25,9 +26,9 @@ import net.unknowndomain.alea.roll.GenericResult;
 public class BrassAgeInitiativeResults extends GenericResult
 {
     
-    private final int result;
+    private final SingleResult<Integer> result;
     
-    public BrassAgeInitiativeResults(int result)
+    public BrassAgeInitiativeResults(SingleResult<Integer> result)
     {
         this.result = result;
     }
@@ -35,7 +36,7 @@ public class BrassAgeInitiativeResults extends GenericResult
     @Override
     protected void formatResults(MsgBuilder messageBuilder, boolean verbose, int indentValue)
     {
-        messageBuilder.append("Initiative: ").append(result).appendNewLine();
+        messageBuilder.append("Initiative: ").append(result.getValue()).appendNewLine();
     }
     
 }
