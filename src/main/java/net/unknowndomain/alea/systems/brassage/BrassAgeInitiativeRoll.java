@@ -15,6 +15,7 @@
  */
 package net.unknowndomain.alea.systems.brassage;
 
+import java.util.Locale;
 import net.unknowndomain.alea.random.SingleResult;
 import net.unknowndomain.alea.random.dice.bag.D10;
 import net.unknowndomain.alea.roll.GenericResult;
@@ -28,17 +29,21 @@ public class BrassAgeInitiativeRoll implements GenericRoll
 {
     
     private final int fatigueValue;
+    private final Locale lang;
     
-    public BrassAgeInitiativeRoll(int fatigueValue)
+    public BrassAgeInitiativeRoll(int fatigueValue, Locale lang)
     {
         this.fatigueValue = fatigueValue;
+        this.lang = lang;
     }
 
     @Override
     public GenericResult getResult()
     {
         SingleResult<Integer> dice = D10.INSTANCE.nextResult().get();
-        return new BrassAgeInitiativeResults( new SingleResult<Integer>("d10 + " + fatigueValue, dice.getValue() + fatigueValue));
+        BrassAgeInitiativeResults result = new BrassAgeInitiativeResults( new SingleResult<>("d10 + " + fatigueValue, dice.getValue() + fatigueValue));
+        result.setLang(lang);
+        return result;
     }
     
 }

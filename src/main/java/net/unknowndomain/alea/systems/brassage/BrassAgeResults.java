@@ -20,14 +20,16 @@ import java.util.Collections;
 import java.util.List;
 import net.unknowndomain.alea.messages.MsgBuilder;
 import net.unknowndomain.alea.random.SingleResult;
-import net.unknowndomain.alea.roll.GenericResult;
+import net.unknowndomain.alea.roll.LocalizedResult;
 
 /**
  *
  * @author journeyman
  */
-public class BrassAgeResults extends GenericResult
+public class BrassAgeResults extends LocalizedResult
 {
+    private final static String BUNDLE_NAME = "net.unknowndomain.alea.systems.brassage.RpgSystemBundle";
+    
     private final List<SingleResult<Integer>> results;
     private int successes = 0;
     private SingleResult<Integer> oldValue;
@@ -111,16 +113,17 @@ public class BrassAgeResults extends GenericResult
     @Override
     protected void formatResults(MsgBuilder messageBuilder, boolean verbose, int indentValue)
     {
-        messageBuilder.append("Successes: ").append(getSuccesses()).appendNewLine();
+        messageBuilder.append(translate("brassage.results.successes", getSuccesses())).appendNewLine();
         if (verbose)
         {
-            messageBuilder.append("Automatic: ").append(getSuccesses() - getSuccessDice().size()).appendNewLine();
+            messageBuilder.append(translate("brassage.results.automatic", getSuccesses() - getSuccessDice().size())).appendNewLine();
             if (increment)
             {
-                messageBuilder.append("Increment: true (").append(getOldValue().getValue()).append(" => ").append(getNewValue().getValue()).append(")").appendNewLine();
+                messageBuilder.append(translate("brassage.results.increment", increment));
+                messageBuilder.append(getOldValue().getValue()).append(" => ").append(getNewValue().getValue()).append(")").appendNewLine();
             }
             messageBuilder.append("Roll ID: ").append(getUuid()).appendNewLine();
-            messageBuilder.append("Results: ").append(" [ ");
+            messageBuilder.append(translate("brassage.results.diceResults")).append(" [ ");
             for (SingleResult<Integer> t : getResults())
             {
                 messageBuilder.append("( ").append(t.getLabel()).append(" => ");
@@ -138,6 +141,12 @@ public class BrassAgeResults extends GenericResult
     public void setIncrement(boolean increment)
     {
         this.increment = increment;
+    }
+
+    @Override
+    protected String getBundleName()
+    {
+        return BUNDLE_NAME;
     }
     
 }

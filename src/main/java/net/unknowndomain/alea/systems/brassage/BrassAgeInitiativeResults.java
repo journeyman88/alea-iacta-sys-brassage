@@ -17,14 +17,15 @@ package net.unknowndomain.alea.systems.brassage;
 
 import net.unknowndomain.alea.messages.MsgBuilder;
 import net.unknowndomain.alea.random.SingleResult;
-import net.unknowndomain.alea.roll.GenericResult;
+import net.unknowndomain.alea.roll.LocalizedResult;
 
 /**
  *
  * @author journeyman
  */
-public class BrassAgeInitiativeResults extends GenericResult
+public class BrassAgeInitiativeResults extends LocalizedResult
 {
+    private final static String BUNDLE_NAME = "net.unknowndomain.alea.systems.brassage.RpgSystemBundle";
     
     private final SingleResult<Integer> result;
     
@@ -36,7 +37,13 @@ public class BrassAgeInitiativeResults extends GenericResult
     @Override
     protected void formatResults(MsgBuilder messageBuilder, boolean verbose, int indentValue)
     {
-        messageBuilder.append("Initiative: ").append(result.getValue()).appendNewLine();
+        messageBuilder.append(translate("brassage.results.initiative", result.getValue())).appendNewLine();
+    }
+
+    @Override
+    protected String getBundleName()
+    {
+        return BUNDLE_NAME;
     }
     
 }

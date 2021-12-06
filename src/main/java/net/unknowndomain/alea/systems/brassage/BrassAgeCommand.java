@@ -64,11 +64,11 @@ public class BrassAgeCommand extends RpgSystemCommand
             GenericRoll roll; 
             if (opt.isInitiativeMode())
             {
-                roll = new BrassAgeInitiativeRoll(opt.getFatigue());
+                roll = new BrassAgeInitiativeRoll(opt.getFatigue(), lang);
             }
             else
             {
-                roll = new BrassAgeRoll(opt.getPotential(), opt.getThreshold(), opt.getModifiers());
+                roll = new BrassAgeRoll(opt.getPotential(), opt.getThreshold(), lang, opt.getModifiers());
             }
             retVal = Optional.of(roll);
         }

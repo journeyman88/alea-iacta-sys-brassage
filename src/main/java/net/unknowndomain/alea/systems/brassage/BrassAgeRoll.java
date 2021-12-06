@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import net.unknowndomain.alea.random.SingleResult;
 import net.unknowndomain.alea.random.SingleResultComparator;
@@ -40,13 +41,14 @@ public class BrassAgeRoll implements GenericRoll
     private final Integer potential;
     private final Integer threshold;
     private final Set<BrassAgeModifiers> mods;
+    private final Locale lang;
     
-    public BrassAgeRoll(Integer potential, Integer threshold, BrassAgeModifiers ... mod)
+    public BrassAgeRoll(Integer potential, Integer threshold, Locale lang, BrassAgeModifiers ... mod)
     {
-        this(potential, threshold, Arrays.asList(mod));
+        this(potential, threshold, lang, Arrays.asList(mod));
     }
     
-    public BrassAgeRoll(Integer potential, Integer threshold, Collection<BrassAgeModifiers> mod)
+    public BrassAgeRoll(Integer potential, Integer threshold, Locale lang, Collection<BrassAgeModifiers> mod)
     {
         this.mods = new HashSet<>();
         if (mod != null)
@@ -74,6 +76,7 @@ public class BrassAgeRoll implements GenericRoll
         this.dicePool = new DicePool<>(D10.INSTANCE, dice, 10);
         this.potential = potential;
         this.threshold = threshold;
+        this.lang = lang;
     }
     
     @Override
@@ -84,6 +87,7 @@ public class BrassAgeRoll implements GenericRoll
         res.addAll(resultsPool);
         BrassAgeResults results = buildResults(res);
         results.setVerbose(mods.contains(BrassAgeModifiers.VERBOSE));
+        results.setLang(lang);
         return results;
     }
     
