@@ -20,7 +20,7 @@ import net.unknowndomain.alea.systems.annotations.RpgSystemOption;
 @RpgSystemData(bundleName = "net.unknowndomain.alea.systems.brassage.RpgSystemBundle")
 public class BrassAgeOptions extends RpgSystemOptions
 {
-    @RpgSystemOption(name = "potential", shortcode = "p", description = "brassage.options.action", argName = "potentialValue")
+    @RpgSystemOption(name = "potential", shortcode = "p", description = "brassage.options.potential", argName = "potentialValue")
     private Integer potential;
     @RpgSystemOption(name = "threshold", shortcode = "t", description = "brassage.options.threshold", argName = "thresholdValue")
     private Integer threshold;
